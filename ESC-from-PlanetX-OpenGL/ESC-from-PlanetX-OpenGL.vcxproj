@@ -133,6 +133,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="shader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleFragmentShader.fragmentshader" />
+    <None Include="SimpleVertexShader.vertexshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
