@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\chior\\Desktop\\FACULTATE\\materiale_anul_3\\ACG\\2D project\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\",
+  "WorkspaceRootPath": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{208C02E3-3A01-407D-9E34-4B2F4B139375}|ESC-from-PlanetX-OpenGL.vcxproj|C:\\Users\\chior\\Desktop\\FACULTATE\\materiale_anul_3\\ACG\\2D project\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{208C02E3-3A01-407D-9E34-4B2F4B139375}|ESC-from-PlanetX-OpenGL.vcxproj|D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{208C02E3-3A01-407D-9E34-4B2F4B139375}|ESC-from-PlanetX-OpenGL.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\chior\\Desktop\\FACULTATE\\materiale_anul_3\\ACG\\2D project\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "C:\\Users\\chior\\Desktop\\FACULTATE\\materiale_anul_3\\ACG\\2D project\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
+              "ToolTip": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAHcAAAAAAAAAAAAAAJEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-15T13:39:48.829Z",
               "EditorCaption": ""

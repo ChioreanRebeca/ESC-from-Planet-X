@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-
 // Include GLEW
 #include "dependente\glew\glew.h"
 
@@ -18,20 +17,19 @@
 
 //variables
 GLFWwindow* window;
-const int width = 1024, height = 1024;
+const int width = 700, height = 700;
 
-//Handling cursor position
-void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	std::cout << "The mouse cursor is: " << xpos << " " << ypos << std::endl;
-}
+//window limits
+const float LEFT_LIMIT = -1.0f + 0.05f;
+const float RIGHT_LIMIT = 1.0f - 0.05f;
 
-//Ex 3: Add callback for mouse button
+//create matrices for transforms
+glm::mat4 trans(1.0f);
 
-//Ex 4: Complete callback for adjusting the viewport when resizing the window
+//Callback for adjusting the viewport when resizing the window
 void window_callback(GLFWwindow* window, int new_width, int new_height)
 {
-	//what should we do here?
+	glViewport(0, 0, new_width, new_height);
 }
 
 int main(void)
@@ -44,7 +42,7 @@ int main(void)
 	}
 
 	// Open a window and create its OpenGL context
-	window = glfwCreateWindow(width, height, "Lab 4", NULL, NULL);
+	window = glfwCreateWindow(width, height, "ESC-from-PlanetX-OpenGL", NULL, NULL);
 	if (window == NULL) {
 		fprintf(stderr, "Failed to open GLFW window.");
 		glfwTerminate();
@@ -68,24 +66,23 @@ int main(void)
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-
 	// Create and compile our GLSL program from the shaders
 	GLuint programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	GLfloat vertices[] = {
-		0.05f,  0.05f, 0.0f,  // top right
-		0.05f, -0.05f, 0.0f,  // bottom right
-		-0.05f, -0.05f, 0.0f,  // bottom left
-		-0.05f,  0.05f, 0.0f   // top left 
+	0.05f, 0.05f, 0.0f, // top right
+	0.05f, -0.05f, 0.0f, // bottom right
+	-0.05f, -0.05f, 0.0f, // bottom left
+	-0.05f, 0.05f, 0.0f // top left
 	};
 
-	GLuint indices[] = {  // note that we start from 0!
-		0, 3, 1,  // first Triangle
-		1, 3, 2,   // second Triangle
+	GLuint indices[] = { // note that we start from 0!
+	0, 3, 1, // first Triangle
+	1, 3, 2, // second Triangle
 	};
 
 
-	// A Vertex Array Object (VAO) is an object which contains one or more Vertex Buffer Objects and is designed to store the information for a complete rendered object. 
+	// A Vertex Array Object (VAO) is an object which contains one or more Vertex Buffer Objects and is designed to store the information for a complete rendered object.
 	GLuint vbo, vao, ibo;
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
@@ -104,42 +101,24 @@ int main(void)
 
 	//set attribute pointers
 	glVertexAttribPointer(
-		0,                  // attribute 0, must match the layout in the shader.
-		3,                  // size of each attribute
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		3 * sizeof(float),  // stride
-		(void*)0            // array buffer offset
+		0, // attribute 0, must match the layout in the shader.
+		3, // size of each attribute
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		3 * sizeof(float), // stride
+		(void*)0 // array buffer offset
 	);
 	glEnableVertexAttribArray(0);
 
-	//create matrices for transforms
-	glm::mat4 trans(1.0f);
-
-	//maybe we can play with different positions
-	glm::vec3 positions[] = {
-		glm::vec3(0.0f,  0.0f,  0),
-		glm::vec3(0.2f,  0.5f, 0),
-		glm::vec3(-0.15f, -0.22f, 0),
-		glm::vec3(-0.38f, -0.2f, 0),
-		glm::vec3(0.24f, -0.4f, 0),
-		glm::vec3(-0.17f,  0.3f, 0),
-		glm::vec3(0.23f, -0.2f, 0),
-		glm::vec3(0.15f,  0.2f, 0),
-		glm::vec3(0.15f,  0.7f, 0),
-		glm::vec3(-0.13f,  0.1f, 0)
-	};
-
-	// Set a callback for handling mouse cursor position
-	// Decomment for a callback example
-	// glfwSetCursorPosCallback(window, cursor_position_callback);
-
-	//Ex4 - Set callback for window resizing
+	//Callback for window resizing
 	glfwSetFramebufferSizeCallback(window, window_callback);
 
+	// Set up transformation and initial position
+	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, 0.0f, 0.0f));
+	float currentX = LEFT_LIMIT; // Track the square's current X position
 
 	// Check if the window was closed
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_RELEASE)
 	{
 		// Swap buffers
 		glfwSwapBuffers(window);
@@ -153,10 +132,14 @@ int main(void)
 		// Use our shader
 		glUseProgram(programID);
 
-		//rotation task based on glfw
-		//trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
-		//with fixed angle
-		trans = glm::rotate(trans, 1.0f, glm::vec3(0.0, 0.0, 1.0));
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && currentX > LEFT_LIMIT) {
+			trans = glm::translate(trans, glm::vec3(-0.0005f, 0.0f, 0.0f));
+			currentX -= 0.0005f;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && currentX < RIGHT_LIMIT) {
+			trans = glm::translate(trans, glm::vec3(0.0005f, 0.0f, 0.0f));
+			currentX += 0.0005f;
+		}
 
 		//bind VAO
 		glBindVertexArray(vao);
@@ -183,5 +166,3 @@ int main(void)
 
 	return 0;
 }
-
-
