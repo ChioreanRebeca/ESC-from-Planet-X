@@ -17,7 +17,7 @@
 
 //variables
 GLFWwindow* window;
-const int width = 700, height = 700;
+const int width = 1000, height = 700;
 
 //window limits
 const float LEFT_LIMIT = -1.0f + 0.05f;
@@ -70,15 +70,47 @@ int main(void)
 	GLuint programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	GLfloat vertices[] = {
+	// Square vertices
 	0.05f, 0.05f, 0.0f, // top right
 	0.05f, -0.05f, 0.0f, // bottom right
 	-0.05f, -0.05f, 0.0f, // bottom left
-	-0.05f, 0.05f, 0.0f // top left
+	-0.05f, 0.05f, 0.0f, // top left
+
+	// Bottom rectangle vertices
+	- 1.0f, -1.0f, 0.0f,  // bottom left
+	1.0f, -1.0f, 0.0f,  // bottom right
+	1.0f, -0.4f, 0.0f,  // top right
+	-1.0f, -0.4f, 0.0f,   // top left
+
+	// floating rectangle1 vertices
+	-0.3f, 0.7f, 0.0f,  // bottom left
+	0.3f, 0.7f, 0.0f,  // bottom right
+	0.3f, 0.4f, 0.0f,  // top right
+	-0.3f, 0.4f, 0.0f,   // top left
+
+	// floating rectangle2 vertices
+	0.7f, 0.7f, 0.0f,  // bottom left
+	1.0f, 0.7f, 0.0f,  // bottom right
+	1.0f, 0.4f, 0.0f,  // top right
+	0.7f, 0.4f, 0.0f   // top left
 	};
 
 	GLuint indices[] = { // note that we start from 0!
+	// Square indices
 	0, 3, 1, // first Triangle
 	1, 3, 2, // second Triangle
+
+	// Bottom rectangle indices
+	4, 5, 7,  // First triangle
+	5, 6, 7,   // Second triangle
+
+	// floating rectangle1
+	8, 9, 11,  // First triangle
+	9, 11, 10,   // Second triangle
+
+	// floating rectangle2
+	12, 13, 15,  // First triangle
+	13, 15, 14   // Second triangle
 	};
 
 
@@ -114,7 +146,7 @@ int main(void)
 	glfwSetFramebufferSizeCallback(window, window_callback);
 
 	// Set up transformation and initial position
-	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, 0.0f, 0.0f));
+	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f)); //modify the second value for y-coord
 	float currentX = LEFT_LIMIT; // Track the square's current X position
 
 	// Check if the window was closed
@@ -149,10 +181,23 @@ int main(void)
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 		unsigned int transformLoc2 = glGetUniformLocation(programID, "color");
-		glm::vec4 color = glm::vec4(0.5f, 0, 0.5f, 1.0);
+		glm::vec4 color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 		glUniform4fv(transformLoc2, 1, glm::value_ptr(color));
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0); //square
+
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f))); // No transformations
+		glm::vec4 color2 = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
+		glUniform4fv(transformLoc2, 1, glm::value_ptr(color2));
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(6 * sizeof(GLuint))); // Next 6 indices for the rectangle
+
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f))); // No transformations
+		glm::vec4 color3 = glm::vec4(0.545f, 0.271f, 0.075f, 1.0f);
+		glUniform4fv(transformLoc2, 1, glm::value_ptr(color3));
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(12 * sizeof(GLuint))); // Next 6 indices for the rectangle
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(18 * sizeof(GLuint))); // Next 6 indices for the rectangle
+
+		//glm::vec4 color3 = glm::vec4(0.545f, 0.271f, 0.075f, 1.0f); brown for boxes
 	}
 
 	// Cleanup
