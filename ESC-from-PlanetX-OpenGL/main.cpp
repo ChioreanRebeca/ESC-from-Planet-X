@@ -70,49 +70,92 @@ int main(void)
 	GLuint programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	GLfloat vertices[] = {
-	// Square vertices
-	0.05f, 0.05f, 0.0f, // top right
-	0.05f, -0.05f, 0.0f, // bottom right
+		// Triangle vertices
+	0.0f, 0.05f, 0.0f, // top
 	-0.05f, -0.05f, 0.0f, // bottom left
-	-0.05f, 0.05f, 0.0f, // top left
+	0.05f, -0.05f, 0.0f, // bottom right
 
 	// Bottom rectangle vertices
-	- 1.0f, -1.0f, 0.0f,  // bottom left
+	-1.0f, -1.0f, 0.0f,  // bottom left
 	1.0f, -1.0f, 0.0f,  // bottom right
 	1.0f, -0.4f, 0.0f,  // top right
 	-1.0f, -0.4f, 0.0f,   // top left
 
 	// floating rectangle1 vertices
-	-0.3f, 0.7f, 0.0f,  // bottom left
-	0.3f, 0.7f, 0.0f,  // bottom right
-	0.3f, 0.4f, 0.0f,  // top right
-	-0.3f, 0.4f, 0.0f,   // top left
+	-0.3f, 0.7f, 0.0f,  // top left
+	0.3f, 0.7f, 0.0f,  // top right
+	0.3f, 0.5f, 0.0f,  // bottom right
+	-0.3f, 0.5f, 0.0f,   // bottom left
 
 	// floating rectangle2 vertices
-	0.7f, 0.7f, 0.0f,  // bottom left
-	1.0f, 0.7f, 0.0f,  // bottom right
-	1.0f, 0.4f, 0.0f,  // top right
-	0.7f, 0.4f, 0.0f   // top left
+	0.7f, 0.6f, 0.0f,  // top left
+	1.0f, 0.6f, 0.0f,  // top right
+	1.0f, 0.4f, 0.0f,  // bottom right
+	0.7f, 0.4f, 0.0f,   // bottom left
+
+	// camera de luat vederi vertices
+	0.4f, 1.0f, 0.0f,  // top left
+	0.55f, 1.0f, 0.0f,  // top right
+	0.55f, 0.8f, 0.0f,  // bottom right
+	0.4f, 0.8f, 0.0f   // bottom left
+
 	};
 
-	GLuint indices[] = { // note that we start from 0!
-	// Square indices
-	0, 3, 1, // first Triangle
-	1, 3, 2, // second Triangle
+	GLfloat verticesMoving[] = { // pozitiile dreptunghiurilor care se misca in loop
+		//rect01
+		0.0f, -0.4f, 0.0f,  // bottom left
+		0.3f, -0.4f, 0.0f,  // bottom right
+		0.3f, -0.3f, 0.0f,  // top right
+		0.0f, -0.3f, 0.0f,   // top left
+
+		//rect02
+		0.0f, -0.4f, 0.0f,  // bottom left
+		0.3f, -0.4f, 0.0f,  // bottom right
+		0.3f, -0.3f, 0.0f,  // top right
+		0.0f, -0.3f, 0.0f,   // top left
+
+		//rect03
+		0.0f, -0.4f, 0.0f,  // bottom left
+		0.3f, -0.4f, 0.0f,  // bottom right
+		0.3f, -0.3f, 0.0f,  // top right
+		0.0f, -0.3f, 0.0f   // top left
+
+	};
+
+	GLuint indices[] = {
+	// Triangle indices
+	0, 1, 2, //Triangle
 
 	// Bottom rectangle indices
-	4, 5, 7,  // First triangle
-	5, 6, 7,   // Second triangle
+	3, 4, 6,  // First triangle
+	4, 5, 6,   // Second triangle
 
 	// floating rectangle1
-	8, 9, 11,  // First triangle
-	9, 11, 10,   // Second triangle
+	7, 8, 10,  // First triangle
+	8, 10, 9,   // Second triangle
 
 	// floating rectangle2
-	12, 13, 15,  // First triangle
-	13, 15, 14   // Second triangle
+	11, 12, 14,  // First triangle
+	12, 14, 13,   // Second triangle
+
+	// floating rectangle2
+	15, 16, 18,  // First triangle
+	16, 18, 17   // Second triangle
 	};
 
+	GLuint indicesMoving[] = {
+	//rect01
+	0, 1, 3,  // First triangle
+	1, 3, 2,   // Second triangle
+
+	//rect02
+	4, 5, 7,  // First triangle
+	5, 7, 6,   // Second triangle
+
+	//rect03
+	8, 9, 11,  // First triangle
+	9, 11, 10   // Second triangle
+	};
 
 	// A Vertex Array Object (VAO) is an object which contains one or more Vertex Buffer Objects and is designed to store the information for a complete rendered object.
 	GLuint vbo, vao, ibo;
@@ -181,21 +224,22 @@ int main(void)
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 		unsigned int transformLoc2 = glGetUniformLocation(programID, "color");
-		glm::vec4 color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+		glm::vec4 color = glm::vec4(0.5f, 0.0f, 0.0f, 1.0f); //dark red
 		glUniform4fv(transformLoc2, 1, glm::value_ptr(color));
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0); //square
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)0); //triangle
 
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f))); // No transformations
 		glm::vec4 color2 = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
 		glUniform4fv(transformLoc2, 1, glm::value_ptr(color2));
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(6 * sizeof(GLuint))); // Next 6 indices for the rectangle
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(3 * sizeof(GLuint))); // Next 6 indices for the rectangle
 
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f))); // No transformations
-		glm::vec4 color3 = glm::vec4(0.545f, 0.271f, 0.075f, 1.0f);
-		glUniform4fv(transformLoc2, 1, glm::value_ptr(color3));
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(12 * sizeof(GLuint))); // Next 6 indices for the rectangle
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(18 * sizeof(GLuint))); // Next 6 indices for the rectangle
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(9 * sizeof(GLuint))); // Next 6 indices for the rectangle
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(15 * sizeof(GLuint))); // Next 6 indices for the rectangle
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(21 * sizeof(GLuint))); // Next 6 indices for camera de luat vederi
+
+
 
 		//glm::vec4 color3 = glm::vec4(0.545f, 0.271f, 0.075f, 1.0f); brown for boxes
 	}

@@ -26,8 +26,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAFsAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-16T19:35:07.93Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -38,8 +51,7 @@
               "RelativeToolTip": "SimpleVertexShader.vertexshader",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-16T16:47:52.983Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-16T16:47:52.983Z"
             },
             {
               "$type": "Document",
@@ -49,10 +61,9 @@
               "RelativeDocumentMoniker": "SimpleFragmentShader.fragmentshader",
               "ToolTip": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\SimpleFragmentShader.fragmentshader",
               "RelativeToolTip": "SimpleFragmentShader.fragmentshader",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-16T16:47:36.863Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-16T16:47:36.863Z"
             },
             {
               "$type": "Document",
@@ -62,23 +73,9 @@
               "RelativeDocumentMoniker": "shader.cpp",
               "ToolTip": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\shader.cpp",
               "RelativeToolTip": "shader.cpp",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAABoAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-16T16:46:56.227Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "main.cpp",
-              "DocumentMoniker": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
-              "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
-              "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAKoAAAAAAAAAAAAkwMUAAABQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-15T13:39:48.829Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-16T16:46:56.227Z"
             }
           ]
         }
