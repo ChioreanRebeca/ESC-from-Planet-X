@@ -23,6 +23,10 @@ const int width = 1000, height = 700;
 const float LEFT_LIMIT = -1.0f + 0.05f;
 const float RIGHT_LIMIT = 1.0f - 0.05f;
 
+//moving rectangles
+const float LEFT_LIMIT_RECT = 0.3f;
+
+
 //create matrices for transforms
 glm::mat4 trans(1.0f);
 
@@ -31,6 +35,14 @@ void window_callback(GLFWwindow* window, int new_width, int new_height)
 {
 	glViewport(0, 0, new_width, new_height);
 }
+
+// Function to check collision
+bool checkCollision(float triangleX, float rectPosX) {
+	const float HALF_TRIANGLE_LENGTH = 0.05f; 
+	return (triangleX + HALF_TRIANGLE_LENGTH >= rectPosX && 
+		triangleX - HALF_TRIANGLE_LENGTH <= rectPosX + 0.3f);
+}
+
 
 int main(void)
 {
@@ -104,22 +116,15 @@ int main(void)
 	GLfloat verticesMoving[] = { // pozitiile dreptunghiurilor care se misca in loop
 		//rect01
 		0.0f, -0.4f, 0.0f,  // bottom left
-		0.3f, -0.4f, 0.0f,  // bottom right
-		0.3f, -0.3f, 0.0f,  // top right
+		0.2f, -0.4f, 0.0f,  // bottom right
+		0.2f, -0.3f, 0.0f,  // top right
 		0.0f, -0.3f, 0.0f,   // top left
+	};
 
-		//rect02
-		0.0f, -0.4f, 0.0f,  // bottom left
-		0.3f, -0.4f, 0.0f,  // bottom right
-		0.3f, -0.3f, 0.0f,  // top right
-		0.0f, -0.3f, 0.0f,   // top left
-
-		//rect03
-		0.0f, -0.4f, 0.0f,  // bottom left
-		0.3f, -0.4f, 0.0f,  // bottom right
-		0.3f, -0.3f, 0.0f,  // top right
-		0.0f, -0.3f, 0.0f   // top left
-
+	glm::vec3 positions[] = {
+		glm::vec3(0.1f,  0.0f,  0.0f),
+		glm::vec3(0.4f,  0.0f, 0.0f),
+		glm::vec3(0.7f, 0.0f, 0.0f)
 	};
 
 	GLuint indices[] = {
@@ -147,43 +152,64 @@ int main(void)
 	//rect01
 	0, 1, 3,  // First triangle
 	1, 3, 2,   // Second triangle
-
-	//rect02
-	4, 5, 7,  // First triangle
-	5, 7, 6,   // Second triangle
-
-	//rect03
-	8, 9, 11,  // First triangle
-	9, 11, 10   // Second triangle
 	};
 
-	// A Vertex Array Object (VAO) is an object which contains one or more Vertex Buffer Objects and is designed to store the information for a complete rendered object.
-	GLuint vbo, vao, ibo;
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ibo);
+	GLuint vbo1, vao1, ibo1,
+		vbo2, vao2, ibo2;
 
-	//bind VAO
-	glBindVertexArray(vao);
+	//Bindings for cubes
+	glGenVertexArrays(1, &vao1);
+	glGenBuffers(1, &vbo1);
+	glGenBuffers(1, &ibo1);
 
-	//bind VBO
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindVertexArray(vao1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo1);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	//bind IBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo1);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	//set attribute pointers
 	glVertexAttribPointer(
-		0, // attribute 0, must match the layout in the shader.
-		3, // size of each attribute
-		GL_FLOAT, // type
-		GL_FALSE, // normalized?
-		3 * sizeof(float), // stride
-		(void*)0 // array buffer offset
+		0,                  // attribute 0, must match the layout in the shader.
+		3,                  // size of each attribute
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		3 * sizeof(float),                  // stride
+		(void*)0            // array buffer offset
 	);
 	glEnableVertexAttribArray(0);
+
+	//Unbinding VAO
+	glBindVertexArray(0);
+
+	//Bindings for pyramid
+	glGenVertexArrays(1, &vao2);
+	glGenBuffers(1, &vbo2);
+	glGenBuffers(1, &ibo2);
+
+	glBindVertexArray(vao2);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesMoving), verticesMoving, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo2);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesMoving), indicesMoving, GL_STATIC_DRAW);
+
+	//set attribute pointers
+	glVertexAttribPointer(
+		0,                  // attribute 0, must match the layout in the shader.
+		3,                  // size of each attribute
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		3 * sizeof(float),                  // stride
+		(void*)0            // array buffer offset
+	);
+	glEnableVertexAttribArray(0);
+
+	//Unbinding VAO
+	glBindVertexArray(0);
 
 	//Callback for window resizing
 	glfwSetFramebufferSizeCallback(window, window_callback);
@@ -192,9 +218,16 @@ int main(void)
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f)); //modify the second value for y-coord
 	float currentX = LEFT_LIMIT; // Track the square's current X position
 
+	//calculate delta time 
+	float lastTime = 0.0f;
+	float deltaTime = 0.0f;
+	int k = 0;
+
 	// Check if the window was closed
 	while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_RELEASE)
 	{
+
+
 		// Swap buffers
 		glfwSwapBuffers(window);
 
@@ -207,6 +240,37 @@ int main(void)
 		// Use our shader
 		glUseProgram(programID);
 
+		deltaTime = glfwGetTime() - lastTime;
+
+		if (deltaTime > 1.0f) {
+			lastTime = glfwGetTime();
+			glBindVertexArray(vao2);
+			glm::mat4 model;
+			model = glm::translate(model, positions[k]);
+			glm::vec4 colorRect = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+			unsigned int transformLocation = glGetUniformLocation(programID, "transform");
+			glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(model));
+			unsigned int transformColor = glGetUniformLocation(programID, "color");
+			glUniform4fv(transformColor, 1, glm::value_ptr(colorRect));
+
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+			k++;
+			if (k == 3) k = 0;
+		} else {
+			//lastTime = glfwGetTime();
+			glBindVertexArray(vao2);
+			glm::mat4 model;
+			model = glm::translate(model, positions[k]);
+			glm::vec4 colorRect = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+			unsigned int transformLocation = glGetUniformLocation(programID, "transform");
+			glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(model));
+			unsigned int transformColor = glGetUniformLocation(programID, "color");
+			glUniform4fv(transformColor, 1, glm::value_ptr(colorRect));
+
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+		}
+		
+
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && currentX > LEFT_LIMIT) {
 			trans = glm::translate(trans, glm::vec3(-0.0005f, 0.0f, 0.0f));
 			currentX -= 0.0005f;
@@ -216,16 +280,14 @@ int main(void)
 			currentX += 0.0005f;
 		}
 
-		//bind VAO
-		glBindVertexArray(vao);
 
-		// send variables to shader
 		unsigned int transformLoc = glGetUniformLocation(programID, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
 		unsigned int transformLoc2 = glGetUniformLocation(programID, "color");
 		glm::vec4 color = glm::vec4(0.5f, 0.0f, 0.0f, 1.0f); //dark red
 		glUniform4fv(transformLoc2, 1, glm::value_ptr(color));
+		glBindVertexArray(0);
+		glBindVertexArray(vao1);
 
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)0); //triangle
 
@@ -239,15 +301,40 @@ int main(void)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(15 * sizeof(GLuint))); // Next 6 indices for the rectangle
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(21 * sizeof(GLuint))); // Next 6 indices for camera de luat vederi
 
+		//k=0 -> 0.1-0.3
+		//k=1 -> 0.4-0.6
+		// k=2 -> 0.7-0.9
 
+		if (k == 0 && currentX >= 0.1f && currentX <= 0.3f) {
+			trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			currentX = LEFT_LIMIT;
+		}
+		else if (k == 1 && currentX >= 0.4f && currentX <= 0.6f) {
+			trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			currentX = LEFT_LIMIT;
+		}
+		else if (k == 2 && currentX >= 0.7f && currentX <= 0.9f) {
+			trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			currentX = LEFT_LIMIT;
+		}
+		
 
-		//glm::vec4 color3 = glm::vec4(0.545f, 0.271f, 0.075f, 1.0f); brown for boxes
+		glBindVertexArray(0);
 	}
 
+		//glm::vec4 color3 = glm::vec4(0.545f, 0.271f, 0.075f, 1.0f); brown for boxes
+
+
 	// Cleanup
-	glDeleteBuffers(1, &vbo);
-	glDeleteBuffers(1, &ibo);
-	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo1);
+	glDeleteBuffers(1, &vbo2);
+	glDeleteBuffers(1, &ibo1);
+	glDeleteBuffers(1, &ibo2);
+	glDeleteVertexArrays(1, &vao1);
+	glDeleteVertexArrays(1, &vao2);
 	glDeleteProgram(programID);
 
 	// Close OpenGL window and terminate GLFW

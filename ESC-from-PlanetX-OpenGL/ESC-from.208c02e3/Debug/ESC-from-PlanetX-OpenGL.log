@@ -1,4 +1,6 @@
 ﻿          1 file(s) copied.
           1 file(s) copied.
   main.cpp
+D:\Documents\GitHub\ESC-from-Planet-X\ESC-from-PlanetX-OpenGL\main.cpp(246,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\ESC-from-Planet-X\ESC-from-PlanetX-OpenGL\main.cpp(249,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   ESC-from-PlanetX-OpenGL.vcxproj -> D:\Documents\GitHub\ESC-from-Planet-X\ESC-from-PlanetX-OpenGL\Debug\ESC-from-PlanetX-OpenGL.exe

@@ -34,9 +34,9 @@
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp",
-              "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAnAAAAAAAAAA==",
+              "ToolTip": "D:\\Documents\\GitHub\\ESC-from-Planet-X\\ESC-from-PlanetX-OpenGL\\main.cpp*",
+              "RelativeToolTip": "main.cpp*",
+              "ViewState": "AgIAADEBAAAAAAAAAAAkwDgBAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-16T19:35:07.93Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "SimpleVertexShader.vertexshader",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-16T16:47:52.983Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-16T16:47:52.983Z"
             },
             {
               "$type": "Document",
@@ -64,8 +63,7 @@
               "RelativeToolTip": "SimpleFragmentShader.fragmentshader",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-16T16:47:36.863Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-16T16:47:36.863Z"
             },
             {
               "$type": "Document",
@@ -77,8 +75,7 @@
               "RelativeToolTip": "shader.cpp",
               "ViewState": "AgIAAD8AAAAAAAAAAAAAABoAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-16T16:46:56.227Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-16T16:46:56.227Z"
             }
           ]
         }
