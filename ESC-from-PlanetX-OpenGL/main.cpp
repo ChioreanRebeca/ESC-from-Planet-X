@@ -305,17 +305,17 @@ int main(void)
 		//k=1 -> 0.4-0.6
 		// k=2 -> 0.7-0.9
 
-		if (k == 0 && currentX >= 0.1f && currentX <= 0.3f) {
+		if (k == 0 && currentX >= 0.06f && currentX <= 0.3f) {
 			trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f));
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 			currentX = LEFT_LIMIT;
 		}
-		else if (k == 1 && currentX >= 0.4f && currentX <= 0.6f) {
+		else if (k == 1 && currentX >= 0.3f && currentX <= 0.6f) {
 			trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f));
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 			currentX = LEFT_LIMIT;
 		}
-		else if (k == 2 && currentX >= 0.7f && currentX <= 0.9f) {
+		else if (k == 2 && currentX >= 0.6f && currentX <= 0.9f) {
 			trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f));
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 			currentX = LEFT_LIMIT;
