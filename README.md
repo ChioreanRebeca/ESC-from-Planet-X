@@ -1,7 +1,7 @@
 # ESC-from-Planet-X
 
 ## Overview
-**ESC-from-Planet-X** is a fast-paced action game where players control a fugitive cyborg trying to escape from a heavily monitored planet. The goal is to avoid detection by security cameras while navigating dynamic terrain filled with challenging obstacles.
+**ESC-from-Planet-X** is a fast-paced action game where players control a fugitive cyborg trying to escape from a heavily monitored planet. The goal is to avoid detection by security cameras.
 
 ---
 
