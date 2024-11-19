@@ -1,5 +1,8 @@
 # ESC-from-Planet-X
 
+## TEAM
+**Naomi Liță** și **Chiorean Rebeca** Group: **1231EA** Theme: **Cosmic Revolution**
+
 ## Overview
 **ESC-from-Planet-X** is a fast-paced action game where players control a fugitive cyborg trying to escape from a heavily monitored planet. The goal is to avoid detection by security cameras.
 
