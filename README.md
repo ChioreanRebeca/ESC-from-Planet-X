@@ -44,7 +44,7 @@ if (deltaTime > 1.0f) {
     unsigned int transformColor = glGetUniformLocation(programID, "color");
     glUniform4fv(transformColor, 1, glm::value_ptr(colorRect));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
-}```
+}
 
 ### Reset Mechanic  
 The reset mechanic ensures that players are sent back to the starting position if they collide with an active tile. Below is the logic responsible for handling the reset:
@@ -62,4 +62,4 @@ if (k == 0 && currentX >= 0.06f && currentX <= 0.3f) {
     trans = glm::translate(glm::mat4(1.0f), glm::vec3(LEFT_LIMIT, -0.35f, 0.0f));
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     currentX = LEFT_LIMIT;
-}```
+}
